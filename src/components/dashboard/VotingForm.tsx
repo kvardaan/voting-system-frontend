@@ -176,7 +176,7 @@ export const VotingForm = () => {
 									className="flex items-center justify-center rounded-md h-8 w-20 text-sm"
 									onClick={retake}
 								>
-									Reverify
+									Retake
 								</Button>
 							) : (
 								<Button
@@ -184,7 +184,7 @@ export const VotingForm = () => {
 									className="flex items-center justify-center rounded-md h-8 w-20 text-sm"
 									onClick={capture}
 								>
-									Verify
+									Capture
 								</Button>
 							)}
 						</div>
@@ -206,7 +206,7 @@ export const VotingForm = () => {
 						{isSubmitting ? (
 							<span className="animate-spin inline-block h-5 w-5 rounded-full border-b-2 border-white"></span>
 						) : (
-							"Register"
+							"Vote"
 						)}
 					</Button>
 				</div>
