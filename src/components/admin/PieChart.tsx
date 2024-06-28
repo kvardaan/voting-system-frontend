@@ -35,7 +35,7 @@ interface Props {
 	}[];
 }
 
-const PieChart: React.FC<Props> = ({ data }) => {
+export const PieChart: React.FC<Props> = ({ data }) => {
 	const votes = data.map((candidate) => candidate.votes);
 	const labels = data.map((candidate) => `${candidate.candidateName} (${candidate.partyName})`);
 
@@ -69,5 +69,3 @@ const PieChart: React.FC<Props> = ({ data }) => {
 		</div>
 	);
 };
-
-export default PieChart;

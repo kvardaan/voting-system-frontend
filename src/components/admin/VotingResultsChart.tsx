@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 import { PieChart } from "./PieChart";
 
 const API_ROUTE = import.meta.env.VITE_API_ROUTE;
