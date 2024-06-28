@@ -9,7 +9,7 @@ import { useVoters } from "../../hooks/useVoters";
 const API_ROUTE = import.meta.env.VITE_API_ROUTE;
 
 export const RegisteredVotersTable = () => {
-	const [voters, loading]: any = useVoters();
+	const [voters, loading, getResults]: any = useVoters();
 	const [deletingVoter, setDeletingVoter] = useState(0);
 
 	const handleVoterDelete = async (aadhaarNumber: number) => {
@@ -20,6 +20,7 @@ export const RegisteredVotersTable = () => {
 				url: `${API_ROUTE}/voter/${aadhaarNumber}`,
 			});
 			alert(response.data.message);
+			await getResults();
 		} catch (error) {
 			alert(`Error: ${error}`);
 		} finally {

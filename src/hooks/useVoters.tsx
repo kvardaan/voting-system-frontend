@@ -28,5 +28,5 @@ export const useVoters = () => {
 		getResults();
 	}, []);
 
-	return [voters, loading];
+	return [voters, loading, getResults];
 };

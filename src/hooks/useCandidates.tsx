@@ -28,5 +28,5 @@ export const useCandidates = () => {
 		getResults();
 	}, []);
 
-	return [candidates, loading];
+	return [candidates, loading, getResults];
 };

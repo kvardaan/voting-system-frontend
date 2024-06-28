@@ -10,7 +10,7 @@ const API_ROUTE = import.meta.env.VITE_API_ROUTE;
 
 export const RegisteredCandidatesTable = () => {
 	const [deletingCandidate, setDeletingCandidate] = useState("");
-	const [candidates, loading]: any = useCandidates();
+	const [candidates, loading, getResults]: any = useCandidates();
 
 	const handleCandidateDelete = async (id: string) => {
 		setDeletingCandidate(id);
@@ -20,6 +20,7 @@ export const RegisteredCandidatesTable = () => {
 				url: `${API_ROUTE}/candidate/${id}`,
 			});
 			alert(response.data.message);
+			await getResults();
 		} catch (error) {
 			alert(`Error: ${error}`);
 		} finally {

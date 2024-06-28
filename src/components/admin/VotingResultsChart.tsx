@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { PieChart } from "./PieChart";
 
 const API_ROUTE = import.meta.env.VITE_API_ROUTE;
 
@@ -7,6 +8,28 @@ export const VotingResultsChart = () => {
 	const [winner, setWinner]: any = useState(null);
 	const [message, setMessage]: any = useState("");
 	const [loading, setLoading] = useState(false);
+	const [candidates, setCandidates] = useState([]);
+
+	const getCandidates = async () => {
+		setLoading(true);
+		try {
+			await new Promise((resolve) => setTimeout(resolve, 500));
+			const response = await axios({
+				method: "get",
+				url: `${API_ROUTE}/candidates`,
+			});
+
+			setCandidates(response.data);
+		} catch (error) {
+			alert(`Error fetching results: ${error}`);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getCandidates();
+	}, []);
 
 	const getResults = async () => {
 		setLoading(true);
@@ -30,6 +53,8 @@ export const VotingResultsChart = () => {
 		getResults();
 	}, []);
 
+	console.log(candidates);
+
 	return (
 		<div className="flex flex-row items-center justify-center">
 			{loading ? (
@@ -40,7 +65,7 @@ export const VotingResultsChart = () => {
 				<div className="flex flex-col items-center justify-center sm:flex-row gap-2">
 					{message ? (
 						<div>
-							<p className="font-medium bg-emerald-100 px-2 py-1 mb-2 rounded-md">{message}</p>
+							<p className="text-center font-medium bg-emerald-100 px-2 py-1 mb-2 rounded-md">{message}</p>
 							{winner ? (
 								<div key={winner._id} className="bg-gray-200 rounded-lg p-2 items-center justify-center">
 									<div className="rounded-md bg-white p-1">
@@ -64,7 +89,9 @@ export const VotingResultsChart = () => {
 								""
 							)}
 							<p className="w-full p-2 text-center">
-								<span className="bg-red-200 rounded-md px-2 py-1">Chart comes here!</span>
+								<div className="rounded-md border p-5">
+									<PieChart data={candidates} />
+								</div>
 							</p>
 						</div>
 					) : (
