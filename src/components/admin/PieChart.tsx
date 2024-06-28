@@ -1,25 +1,31 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// Register required Chart.js components
+Chart.register(ArcElement, Tooltip, Legend);
 
-const options = {
+// Options for the chart
+const options: Chart.ChartOptions<"pie"> = {
 	responsive: true,
 	plugins: {
 		legend: {
-			position: "bottom",
+			position: "bottom" as const, // Ensure position is of the correct type
 		},
 		tooltip: {
 			callbacks: {
 				label: function (tooltipItem: any) {
-					return `Votes: ${tooltipItem.raw}`;
+					if (tooltipItem.raw) {
+						return `${tooltipItem.label}: ${tooltipItem.raw} votes`;
+					}
+					return "";
 				},
 			},
 		},
 	},
 };
 
+// Define the PieChart component
 interface Props {
 	data: {
 		_id: string;
@@ -32,12 +38,15 @@ interface Props {
 	}[];
 }
 
-export const PieChart: React.FC<Props> = ({ data }) => {
+const PieChart: React.FC<Props> = ({ data }) => {
+	// Process the data
 	const votes = data.map((candidate) => candidate.votes);
 	const labels = data.map((candidate) => `${candidate.candidateName} (${candidate.partyName})`);
 
+	// Generate random colors for the chart slices
 	const colors = generateColors(data.length);
 
+	// Function to generate random colors
 	function generateColors(numColors: number) {
 		const colors: string[] = [];
 		for (let i = 0; i < numColors; i++) {
@@ -49,6 +58,7 @@ export const PieChart: React.FC<Props> = ({ data }) => {
 		return colors;
 	}
 
+	// Data for the chart
 	const chartData = {
 		labels: labels,
 		datasets: [
@@ -66,3 +76,5 @@ export const PieChart: React.FC<Props> = ({ data }) => {
 		</div>
 	);
 };
+
+export default PieChart;
